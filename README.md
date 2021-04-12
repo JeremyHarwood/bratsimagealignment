@@ -4,7 +4,7 @@ Automatic pixel-based alignment tool for radio images for use in the creation of
 
 If you have made use of this script, please cite Harwood, Vernstrom & Stroe 2019, MNRAS 491 803.
 
-**Note this is the DS9 region file version. If you are using CASA style region files, there is a separate version available.**
+**Note this is the DS9 region file version. If you are using CASA style region files there is a separate version available.**
 
 This has primarily been created for use with the Broadband Radio Astronomy Tools (BRATS) but is a stand alone module and so can be used for any alignment purposes.
 
@@ -25,6 +25,9 @@ Where it is not practicable for all images to be align on a single point source,
 
 Only bratsalign.py is required to allow usage, which can then be imported in the
 standard manner (#import bratsalign).
+
+The packages dependencies are:
+ - glob, scipy.ndimage, pyregion, numexpr, numpy, astropy, scipy
 
 See bia_example.py and accompanying .fits files for example usage.
 
