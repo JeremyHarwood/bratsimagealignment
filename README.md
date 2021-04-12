@@ -1,10 +1,10 @@
-# BRATS Image Aligner (CASA Version)
+# BRATS Image Aligner (DS9 Version)
 
 Automatic pixel-based alignment tool for radio images for use in the creation of spectral ageing and spectral index maps.
 
 If you have made use of this script, please cite Harwood, Vernstrom & Stroe 2019, MNRAS 491 803.
 
-**Note this is the CASA region file version. If you are using DS9 style region files, there is a separate (easier to use) version available.**
+**Note this is the DS9 region file version. If you are using CASA style region files, there is a separate version available.**
 
 This has primarily been created for use with the Broadband Radio Astronomy Tools (BRATS) but is a stand alone module and so can be used for any alignment purposes.
 
@@ -23,13 +23,11 @@ Where it is not practicable for all images to be align on a single point source,
   - Option 2: Manually obtain the Gaussian peak of the previously aligned image, and use "mode=1" with "reference_location" set to the peak value.
 - Manually check that the target source has been aligned correctly.
 
-Only bratsalign_casa.py is required to allow usage, which can then be imported in the
-standard manner (#import bratsalign_casa).
+Only bratsalign.py is required to allow usage, which can then be imported in the
+standard manner (#import bratsalign).
 
-See bia_casa_example.py and accompanying .fits files for example usage.
+See bia_example.py and accompanying .fits files for example usage.
 
-### Known issues
-On certain setups when using certain version combinations of CASA and Python, it is possible that CASA will not run automatically due to a Python path conflict. In such cases, it is recommended to run the Python script created by bratsimagealigner manually. Note that the final alignment checking will not be done in such cases and should be checked by hand by the user on completion.
 
 
 
