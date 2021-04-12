@@ -12,7 +12,7 @@
 
 ####################################################################################################################################################
 
-import os, glob, scipy.ndimage, sys, subprocess, pickle, pyregion
+import os, glob, scipy.ndimage, sys, pyregion
 import numexpr as ne
 import numpy as np
 from astropy.io import fits
