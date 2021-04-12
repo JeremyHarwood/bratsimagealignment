@@ -42,7 +42,7 @@ var_input = ['./testimages/*.fits'] # Example: var_input = ['./path/to/some/fits
 var_output = './output'   
 
 # List of regions files. Casa format, one per input (can be the same, or different if significantly shifted)
-var_region = ['J1206_gaussfit.crtf'] # Example: var_region = ['aregionfile.crtf', './pathtoanother/regionfile.crtf', './pathto/athird/regionfile.crtf']
+var_region = ['J1206_gaussfit.reg'] # Example: var_region = ['aregionfile.crtf', './pathtoanother/regionfile.crtf', './pathto/athird/regionfile.crtf']
 
 # Parameters
 var_reftype = 2 # Choose if we should a reference point set by a predefined image (0), a fixed value (1), or the mean (2) 
