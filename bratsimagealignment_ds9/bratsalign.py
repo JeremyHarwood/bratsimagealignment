@@ -7,8 +7,6 @@
 # Please cite Harwood, Vernstrom & Stroe 2019, MNRAS 491 803 if you have made use of this class.
 
 # Automatically fits Gaussians and aligns images in pixel space. Particularly useful for spectral index and spectral age fitting on resolved scales.
-# Change the var_ variables at the top of the script to suit your setup
-# The script should be run in CASA using either exec() or the -C command line argument
 
 ####################################################################################################################################################
 
@@ -32,36 +30,19 @@ class _Constants:
     _VERSION = "v1.0.1"
     _MAX_MODES = 2
     _REFERENCE_ROUNDING_ACCURACY = 2
-    _CASA_COMMANDS_FILE_NAME = "brats_casa_commands.py"
-    _CASA_DATA_FILES_PREFIX = "brats_"
     _DEFAULT_OUTPUT_PATH = "./"
-    _DEFAULT_CASA_PATH = "/soft/casapy/bin/casa"
     _GFACTOR=2.0*np.sqrt(2.0*np.log(2.0))
-    _CASA_HEADER = '''\
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# This temporary script was created by the BRATS alignment tool and can be safely deleted once a run has completed.
-
-# Created by Jeremy. J. Harwood (2019)
-# Contact: Jeremy.Harwood@physics.org or J.Harwood3@herts.ac.uk
-
-# Please cite Harwood, Vernstrom & Stroe 2019, MNRAS 491 803 if you have made use of this script.
-
-import os, sys, pickle
-'''
 
 
 class Setup(_Constants):
 
-    def __init__(self, input_files:list, region_files:list, output_dir=_Constants._DEFAULT_OUTPUT_PATH, mode=2, reference_image=0, reference_location=[1024.0, 1024.0], residual_region=0, casa_path=_Constants._DEFAULT_CASA_PATH, overwrite_files=False):
+    def __init__(self, input_files:list, region_files:list, output_dir=_Constants._DEFAULT_OUTPUT_PATH, mode=2, reference_image=0, reference_location=[1024.0, 1024.0], residual_region=0, overwrite_files=False):
         _Setters._set_input(self, input_files)
         _Setters._set_regions(self, region_files)
         _Setters._set_output(self, output_dir)
         _Setters._set_mode(self,mode)
         _Setters._set_reference_image(self,reference_image)
         _Setters._set_reference_location(self,reference_location)
-        _Setters._set_casa_path(self,casa_path)
         self._residual_region=residual_region # THIS NEEDS A SETTER!
         self._overwrite = overwrite_files
 
@@ -73,9 +54,6 @@ class Setup(_Constants):
 
     def set_reference_location(self, reference_location:int):
         _Setters._set_reference_location(self, reference_location)
-
-    def set_casa_path(self, casa_path:str):
-        self._casa_path = _set_casa_path(self, casa_path)
 
     def overwrite(self, overwrite_files:bool):
         self._overwrite = overwrite_files
@@ -116,16 +94,21 @@ class _Setters(Setup):
     def _set_regions(self, __region_files):
         if len(__region_files) == 1:
             if not __region_files[0].strip():
-                   raise ValueError('The region files list contains a blank element. All elements must contain a valid value.')
+                raise ValueError('The region files list contains a blank element. All elements must contain a valid value.')
             elif not os.path.isfile(__region_files[0]):
-                   raise FileNotFoundError('The region file %s does not exist. Please ensure all paths are correct.' % (__region_files[0]))
+                raise FileNotFoundError('The region file %s does not exist. Please ensure all paths are correct.' % (__region_files[0]))
+            elif not __region_files[0].upper().endswith('.REG'):
+                raise ValueError('The region file must contain be in a valid DS9 style format (.reg).')
             self._regions = __region_files * len(self._input)
         elif len(__region_files) == len(self._input):
+            print("Here")
             for file in __region_files:
                if not file.strip():
                    raise ValueError('The region files list contains a blank element. All elements must contain a valid value.')
                elif not os.path.isfile(file):
                    raise FileNotFoundError('The region file %s does not exist. Please ensure all paths are correct.' % (file))
+               elif not file.upper().endswith('.REG'):
+                   raise ValueError('The region files list must contain only DS9 style regions (.reg). Incorrect file format for: ' % (file))
             self._regions = __region_files
         elif len(__region_files) == 0:
             raise IndexError('Region files list cannot be empty!')
@@ -149,9 +132,6 @@ class _Setters(Setup):
         if not len(__reference_location) == 2:
             raise IndexError('Reference location must be a list containing 2 element (currently %d)' % (len(__reference_location)))
         self._reference_location = __reference_location
-
-    def  _set_casa_path(self, __casa_path): # This needs error checking!
-        self._casa_path = __casa_path
 
 
 class _Core(Setup):
