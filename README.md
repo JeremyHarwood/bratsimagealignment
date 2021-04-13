@@ -27,7 +27,7 @@ Only bratsalign.py is required to allow usage, which can then be imported in the
 standard manner (#import bratsalign).
 
 The packages dependencies are:
- - glob, scipy.ndimage, pyregion, numexpr, numpy, astropy, scipy
+ - glob, scipy, pyregion, numexpr, numpy, astropy, scipy
 
 See bia_example.py and accompanying .fits files for example usage.
 
